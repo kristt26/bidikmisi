@@ -36,7 +36,14 @@ class User{
     }
     public function read()
     {
-        $query= "SELECT * FROM ".$this->table_name." WHERE ";
+        $query= "SELECT * FROM ".$this->table_name." WHERE Username= ? and Password=?";
+        $stmt=$this->conn->prepare($query);
+        $this->Username=htmlspecialchars(strip_tags($this->Username));
+        $this->Password=htmlspecialchars(strip_tags($this->Password));
+        $stmt->bindParam(1, $this->Username);
+        $stmt->bindParam(2, $this->Password);
+        $stmt->execute();
+        return $stmt;
     }
 }
 

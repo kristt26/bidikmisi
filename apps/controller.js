@@ -75,3 +75,24 @@ angular.module("Ctrl", [])
         }
 
     })
+    .controller("LoginController", function($scope, $http){
+        $scope.DatasLogin;
+        $scope.Login=function(){
+            var UrlLogin= "api/datas/read/UserLogin.php";
+            var Data = $scope.DatasLogin;
+            $http({
+                method: "POST",
+                url: UrlLogin,
+                data: Data
+            })
+            .then(function(response){
+                if(response.data){
+                    
+                }
+
+            }, function(error){
+                alert(error);
+            })
+        }
+
+    })

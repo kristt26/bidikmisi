@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html dir="ltr">
 
-<head>
+<head ng-app="app">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- Tell the browser to be responsive to screen width -->
@@ -19,9 +19,9 @@
     <script src="assets/scripts/angular-animate.min.js"></script>
     <!-- <script src="node_modules/chart.js/dist/Chart.min.js"></script> -->
     <!-- <script src="node_modules/angular-chart.js/dist/angular-chart.min.js"></script> -->
-    <script type="text/javascript" src="dist/js/angular/fusioncharts.js"></script>
+    <!-- <script type="text/javascript" src="dist/js/angular/fusioncharts.js"></script>
     <script type="text/javascript" src="dist/js/angular/fusioncharts.charts.js"></script>
-    <script type="text/javascript" src="dist/js/angular/angular-fusioncharts.min.js"></script>
+    <script type="text/javascript" src="dist/js/angular/angular-fusioncharts.min.js"></script> -->
     <!-- <script type="text/javascript" src="node_modules/zune-theme.js"></script> -->
 
     <script src="apps/app.js"></script>
@@ -35,7 +35,7 @@
 <![endif]-->
 </head>
 
-<body ng-app="app">
+<body ng-controller="LoginController">
     <div class="main-wrapper">
         <!-- ============================================================== -->
         <!-- Preloader - style you can find in spinners.css -->
@@ -59,7 +59,7 @@
                         <span class="db"><img src="assets/images/logo.png" alt="logo" /></span>
                     </div>
                     <!-- Form -->
-                    <form class="form-horizontal m-t-20" id="loginform" action="index.html">
+                    <form class="form-horizontal m-t-20" id="loginform" ng-submit="Login()">
                         <div class="row p-b-30">
                             <div class="col-12">
                                 <div class="input-group mb-3">
@@ -70,9 +70,9 @@
                                 </div>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text bg-warning text-white" id="basic-addon2"><i class="ti-pencil"></i></span>
+                                        <span class="input-group-text bg-warning text-white" id="basic-addon2" ng-model="DatasLogin.Username"><i class="ti-pencil"></i></span>
                                     </div>
-                                    <input type="text" class="form-control form-control-lg" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1" required="">
+                                    <input type="text" class="form-control form-control-lg" placeholder="Password" aria-label="Password" ng-model="DatasLogin.Password" aria-describedby="basic-addon1" required="">
                                 </div>
                             </div>
                             <div class="form-group">
