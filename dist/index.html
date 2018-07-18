@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html ng-app="myModule">
+
+  <head>
+    <link data-require="bootstrap-css@2.3.2" data-semver="2.3.2" rel="stylesheet" href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" />
+    <link data-require="datatable-css@1.10.7" data-semver="1.10.7" rel="stylesheet" href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css" />
+    
+    <script data-require="jquery.js@1.11.3" data-semver="1.11.3" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script data-require="datatable.js@1.10.7" data-semver="1.10.7" src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+    
+    <script data-require="angular.js@1.1.5" data-semver="1.1.5" src="http://code.angularjs.org/1.1.5/angular.min.js"></script>
+    <script data-require="angular-datatable.js@1.1.5" data-semver="1.1.5" src="angular-datatables.min.js"></script>
+  
+    
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js"></script>
+  </head>
+
+  <body>
+    <div ng-controller="MyCtrl">
+      <table datatable="ng" dt-options="dtOptions" class="table table-hover">
+        <thead>
+            <tr>
+                <th>S. No.</th>
+                <th>Name</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="user in users">
+                <td>{{$index + 1}}</td>
+                <td>{{user.fullname}}</td>
+                <td>{{user.email}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+  </body>
+
+</html>

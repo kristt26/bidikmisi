@@ -2751,7 +2751,7 @@ select.form-control-lg:not([size]):not([multiple]) {
 
 a.btn.disabled,
 fieldset:disabled a.btn {
-    pointer-events: none
+    pointer-events: none;
 }
 
 .btn-primary {

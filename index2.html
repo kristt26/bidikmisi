@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html dir="ltr">
 
-<head>
+<head ng-app="app">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- Tell the browser to be responsive to screen width -->
@@ -14,10 +14,19 @@
     <!-- Custom CSS -->
     <link href="dist/css/style.min.css" rel="stylesheet">
     <script src="dist/js/angular/angular.js"></script>
+    <!--<script type="text/javascript" src="https://code.angularjs.org/1.4.1/angular.min.js"></script>-->
     <script src="dist/js/angular/angular-route.js"></script>
     <script src="dist/js/angular/angular-animate.min.js"></script>
+    <!-- <script src="node_modules/chart.js/dist/Chart.min.js"></script> -->
+    <!-- <script src="node_modules/angular-chart.js/dist/angular-chart.min.js"></script> -->
+    <!-- <script type="text/javascript" src="dist/js/angular/fusioncharts.js"></script>
+    <script type="text/javascript" src="dist/js/angular/fusioncharts.charts.js"></script>
+    <script type="text/javascript" src="dist/js/angular/angular-fusioncharts.min.js"></script> -->
+    <!-- <script type="text/javascript" src="node_modules/zune-theme.js"></script> -->
+
     <script src="apps/app.js"></script>
     <script src="apps/Controller.js"></script>
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -26,7 +35,7 @@
 <![endif]-->
 </head>
 
-<body ng-app="app" ng-controller="LoginController">
+<body ng-controller="LoginController">
     <div class="main-wrapper">
         <!-- ============================================================== -->
         <!-- Preloader - style you can find in spinners.css -->
@@ -47,7 +56,7 @@
             <div class="auth-box bg-dark border-top border-secondary">
                 <div id="loginform">
                     <div class="text-center p-t-20 p-b-20">
-                        <span class="db"><img src="assets/images/logo.png" alt="logo" /></span>
+                        <span class="db"><img src="/assets/images/logo.png" alt="logo" /></span>
                     </div>
                     <!-- Form -->
                     <form class="form-horizontal m-t-20" id="loginform">
@@ -57,26 +66,26 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text bg-success text-white" id="basic-addon1"><i class="ti-user"></i></span>
                                     </div>
-                                    <input type="text" class="form-control form-control-lg" placeholder="Username" ng-model="DatasLogin.Username" aria-label="Username" aria-describedby="basic-addon1" required="">
+                                    <input type="text" class="form-control form-control-lg" placeholder="Username" aria-label="DatasLogin.Username" aria-describedby="basic-addon1" required="">
                                 </div>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text bg-warning text-white" id="basic-addon2"><i class="ti-pencil"></i></span>
                                     </div>
-                                    <input type="password" class="form-control form-control-lg" placeholder="Password" ng-model="DatasLogin.Password" aria-label="Password" aria-describedby="basic-addon1" required="">
+                                    <input type="password" class="form-control form-control-lg" placeholder="Password" aria-label="Password" ng-model="DatasLogin.Password" aria-describedby="basic-addon1" required="">
                                 </div>
-                                <div class="form-group">
-                                    <div class="p-t-20">
-                                        <button class="btn btn-success float-left" type="submit" ng-click="Login()">Login</button>
-                                    </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="p-t-20">
+                                    <button class="btn btn-success float-left" type="submit" ng-click="Login()">Login</button>
                                 </div>
                             </div>
                         </div>
-                        <div class="row border-top border-secondary">
-                            <div class="col-12">
-                                <div class="form-group">
-                                    <div class="p-t-20">
-                                        <button class="btn btn-info" id="to-recover" type="button"><i class="fa fa-lock m-r-5"></i> Lost password?</button>
+                        <div class=" row border-top border-secondary ">
+                            <div class="col-12 ">
+                                <div class="form-group ">
+                                    <div class="p-t-20 ">
+                                        <button class="btn btn-info " id="to-recover " type="button "><i class="fa fa-lock m-r-5 "></i> Lost password?</button>
                                         <a href="html/ltr/authentication-register.html " class="btn btn-success float-right " type="submit ">Signin</a>
                                     </div>
                                 </div>
@@ -84,25 +93,25 @@
                         </div>
                     </form>
                 </div>
-                <div id="recoverform">
-                    <div class="text-center">
-                        <span class="text-white">Enter your e-mail address below and we will send you instructions how to recover a password.</span>
+                <div id="recoverform ">
+                    <div class="text-center ">
+                        <span class="text-white ">Enter your e-mail address below and we will send you instructions how to recover a password.</span>
                     </div>
-                    <div class="row m-t-20">
+                    <div class="row m-t-20 ">
                         <!-- Form -->
-                        <form class="col-12" action="index.html">
+                        <form class="col-12 " action="index.html ">
                             <!-- email -->
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text bg-danger text-white" id="basic-addon1"><i class="ti-email"></i></span>
+                            <div class="input-group mb-3 ">
+                                <div class="input-group-prepend ">
+                                    <span class="input-group-text bg-danger text-white " id="basic-addon1 "><i class="ti-email "></i></span>
                                 </div>
-                                <input type="text" class="form-control form-control-lg" placeholder="Email Address" aria-label="Username" aria-describedby="basic-addon1">
+                                <input type="text " class="form-control form-control-lg " placeholder="Email Address " aria-label="Username " aria-describedby="basic-addon1 ">
                             </div>
                             <!-- pwd -->
-                            <div class="row m-t-20 p-t-20 border-top border-secondary">
-                                <div class="col-12">
-                                    <a class="btn btn-success" href="#" id="to-login" name="action">Back To Login</a>
-                                    <button class="btn btn-info float-right" type="button" name="action">Recover</button>
+                            <div class="row m-t-20 p-t-20 border-top border-secondary ">
+                                <div class="col-12 ">
+                                    <a class="btn btn-success " href="# " id="to-login " name="action ">Back To Login</a>
+                                    <button class="btn btn-info float-right " type="button " name="action ">Recover</button>
                                 </div>
                             </div>
                         </form>
@@ -129,27 +138,27 @@
     <!-- ============================================================== -->
     <!-- All Required js -->
     <!-- ============================================================== -->
-    <script src="assets/libs/jquery/dist/jquery.min.js"></script>
+    <script src="assets/libs/jquery/dist/jquery.min.js "></script>
     <!-- Bootstrap tether Core JavaScript -->
-    <script src="assets/libs/popper.js/dist/umd/popper.min.js"></script>
-    <script src="assets/libs/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="assets/libs/popper.js/dist/umd/popper.min.js "></script>
+    <script src="assets/libs/bootstrap/dist/js/bootstrap.min.js "></script>
     <!-- ============================================================== -->
     <!-- This page plugin js -->
     <!-- ============================================================== -->
     <script>
-        $('[data-toggle="tooltip"]').tooltip();
-        $(".preloader").fadeOut();
+        $('[data-toggle="tooltip "]').tooltip();
+        $(".preloader ").fadeOut();
         // ============================================================== 
         // Login and Recover Password 
         // ============================================================== 
-        $('#to-recover').on("click", function() {
-            $("#loginform").slideUp();
-            $("#recoverform").fadeIn();
+        $('#to-recover').on("click ", function() {
+            $("#loginform ").slideUp();
+            $("#recoverform ").fadeIn();
         });
         $('#to-login').click(function() {
 
-            $("#recoverform").hide();
-            $("#loginform").fadeIn();
+            $("#recoverform ").hide();
+            $("#loginform ").fadeIn();
         });
     </script>
 

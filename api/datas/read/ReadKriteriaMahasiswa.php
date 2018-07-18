@@ -8,11 +8,15 @@ include_once '../../../api/config/database.php';
 
 include_once '../../../api/objects/Kriteria.php';
 include_once '../../../api/objects/SubKriteria.php';
-
+include_once '../../../api/objects/Mahasiswa.php';
+include_once '../../../api/objects/KriteriaMahasiswa.php';
+session_start();
 $database = new Database();
 $db = $database->getConnection();
 $kriteria = new Kriteria($db);
 $subkriteria = new SubKriteria($db);
+$mahasiswa= new Mahasiswa($db);
+$kriteriaMahasiswa = new KriteriaMahasiswa($db);
 
 $stmt = $kriteria->read();
 $numRowKriteria = $stmt->rowCount();
@@ -28,7 +32,9 @@ if($numRowKriteria>0){
             "Kriteria"=>$Kriteria,
             "Bobot"=>$Bobot,
             "Keterangan"=>$Keterangan,
-            "SubKriteria"=>array()
+            "SubKriteria"=>array(),
+            "KriteriaMhasiswa"=>array(),
+            "Nilai"=>"",
         );
         $subkriteria->IdKriteria=$IdKriteria;
         $stmtSub = $subkriteria->readOne();
@@ -41,6 +47,17 @@ if($numRowKriteria>0){
             );
             array_push($ItemKriteria["SubKriteria"], $ItemSub);
         }
+        
+        $kriteriaMahasiswa->IdKriteria=$IdKriteria;
+        $kriteriaMahasiswa->IdMahasiswa=$_SESSION['IdMahasiswa'];
+        $kriteriaMahasiswa->readOne();
+        $ItemMahasiswa = array(
+            'Nilai' => $kriteriaMahasiswa->Nilai, 
+            'Berkas' => $kriteriaMahasiswa->Berkas,
+            'Status' => $kriteriaMahasiswa->Status
+        );
+        array_push($ItemKriteria["KriteriaMhasiswa"], $ItemMahasiswa);
+        $ItemKriteria["Nilai"]=$kriteriaMahasiswa->Nilai;
         array_push($DatasKriteria["Kriteria"], $ItemKriteria);
     }
     echo json_encode($DatasKriteria);

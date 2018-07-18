@@ -1,71 +1,94 @@
 <div ng-init="Init()" style="padding-bottom: 700px;">
+
     <div class="page-breadcrumb">
-        <div class="row">
-            <div class="col-12 d-flex no-block align-items-center">
-                <h4 class="page-title">Data Kriteria</h4>
-                <div class="ml-auto text-right">
-                    <a class="float-right" title="Tambah Kriteria" data-toggle="modal" ng-click="TombolTambahGejala()" data-target="#TambahKriteria">
-                        <font size="10px" color="blue"><i class="mdi mdi-plus-circle"></i></font>
-                    </a>
+        <div class="card m-b-0">
+            <div class="row card-header">
+                <div class="col-12 d-flex no-block align-items-center">
+                    <h4 class="page-title">Daftar Persyaratan</h4>
                 </div>
             </div>
-
-        </div>
-    </div>
-    <div class="container-fluid">
-        <div class="accordion" id="accordionExample">
-            <div class="card m-b-0" ng-repeat="ItemKriteria in DatasKriteria">
-                <div class="card-header" id="headingOne{{ItemKriteria.IdKriteria}}">
-                    <h5 class="mb-0 d-flex no-block align-items-center">
-                        <a data-toggle="collapse" data-target="#collapseOne{{ItemKriteria.IdKriteria}}" aria-expanded="true" aria-controls="collapseOne{{ItemKriteria.IdKriteria}}">
-                            <i class="m-r-5 fa fa-magnet" aria-hidden="true"></i>
-                            <span>{{ItemKriteria.Keterangan}}({{ItemKriteria.Kriteria}})</span>
-                        </a>
-                        <div class="ml-auto text-right">
-                            <a href="" data-toggle="modal" data-placement="top" title="Update Kriteria" ng-click="GetItemKriteria(ItemKriteria)" data-target="#EditKriteria">
-                                <i class="mdi mdi-check"></i>
-                            </a>
-                            <a href="" data-toggle="modal" data-placement="top" title="Add Sub Kriteria" ng-click="GetIdKriteria(ItemKriteria)" data-target="#TambahSubKriteria">
-                                <i class="mdi mdi-plus"></i>
-                            </a>
-                        </div>
-                    </h5>
-                </div>
-                <div id="collapseOne{{ItemKriteria.IdKriteria}}" class="collapse" aria-labelledby="headingOne{{ItemKriteria.IdKriteria}}" data-parent="#accordionExample">
-                    <div class="card-body">
-                        <div class="card col-6">
-                            <div class="card-body">
-                                <h5 class="card-title m-b-0">Sub Kriteria {{ItemKriteria.Kriteria}}</h5>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-4">
+                        <ol>
+                            <li class="list-item" ng-repeat="item in DatasKriteria">
+                                <a href="" ng-click="ShowForm(item)">{{item.Keterangan}}({{item.Kriteria}})</a>
+                                <i class="mdi mdi-check" style="color: green;"></i>
+                            </li>
+                        </ol>
+                    </div>
+                    <div class="col-8">
+                        <div class="card" ng-show="tampilData" ng-hide="showData">
+                            <div class="card-header">
+                                <div class="card-body">
+                                    <div class="form-group row">
+                                        <label for="fname" class="col-sm-3 text-right control-label col-form-label">{{DataForm.Keterangan}}</label>
+                                        <div class="col-sm-9">
+                                            <b>{{InputData.Jarak}}</b>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="lname" class="col-sm-3 text-right control-label col-form-label">Berkas Pendukung</label>
+                                        <div class="col-sm-9" ng-show="InputData.Berkas!=null">
+                                            <a href="assets/berkas/{{InputData.Berkas}}" target="_blank"><i class="mdi mdi-file-pdf" style="color: green;"></i> {{InputData.Berkas}}</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="border-top">
+                                    <div class="card-body">
+                                        <button type="button" class="btn btn-primary" ng-click="FormEdit()">Edit</button>
+                                    </div>
+                                </div>
                             </div>
-                            <table class="table card-header">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">No</th>
-                                        <th scope="col">Jarak</th>
-                                        <th scope="col">Bobot</th>
-                                        <td scope="col">Action</td>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr scope="row" ng-repeat="itemSub in ItemKriteria.SubKriteria">
-                                        <td>{{$index+1}}</td>
-                                        <td>{{itemSub.Jarak}}</td>
-                                        <td>{{itemSub.BobotSubKriteria}}</td>
-                                        <td>
-                                            <a href="" data-toggle="modal" data-placement="top" title="Update" ng-click="GetItemSubKriteria(itemSub)" data-target="#EditSubKriteria">
-                                                <i class="mdi mdi-check"></i>
-                                            </a>
-                                            <a href="" data-placement="top" title="Delete" ng-click="DeleteSubKriteria(itemSub)">
-                                                </i><i class="mdi mdi-close"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
                         </div>
+                        <div class="card" ng-show="tampilAdd" ng-hide="showadd">
+                            <form ng-submit="Save()">
+                                <div class="card-header">
+                                    <div class="form-group row">
+                                        <label class="col-md-3">{{DataForm.Keterangan}}</label>
+                                        <div class="col-md-9">
+                                            <div class="form-check" ng-repeat="itemsubkriteria in DataForm.SubKriteria">
+                                                <label class="form-check-label">
+                                                    <input type="radio" class="form-check-input" value="{{itemsubkriteria.BobotSubKriteria}}" ng-model="InputData.Nilai" name="Berkas">{{itemsubkriteria.Jarak}}
+                                                </label>
+                                            </div>
+                                            <!-- <div class="custom-control custom-radio" ng-repeat="itemsubkriteria in DataForm.SubKriteria">
+                                                <input type="radio" class="custom-control-input" id="{{itemsubkriteria.BobotSubKriteria}}" value="{{itemsubkriteria.BobotSubKriteria}}" ng-model="InputData.Nilai" name="{{DataForm.Keterangan}}" required>
+                                                <label class="custom-control-label" for="{{itemsubkriteria.BobotSubKriteria}}">{{itemsubkriteria.Jarak}}</label>
+                                            </div> -->
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-3">File Upload</label>
+                                        <div class="col-md-9">
+                                            <div class="custom-file">
+                                                <input type="file" file-input="files" class="custom-file-input" id="validatedCustomFile" ng-model="InputData.Berkas" onchange="angular.element(this).scope().uploadedFile(this);" required>
+                                                <label ng-show="InputData.Berkas!=undefined" class="custom-file-label" for="validatedCustomFile">{{InputData.Berkas}}</label>
+                                                <label ng-show="InputData.Berkas==undefined" class="custom-file-label" for="validatedCustomFile">Pilih Berkas</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="border-top">
+                                    <div class="card-body">
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+
+        <div class="row col-12">
+            <div class="col-4">
+
+            </div>
+
         </div>
     </div>
     <div class="modal fade" id="TambahKriteria" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

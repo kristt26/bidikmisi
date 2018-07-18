@@ -34,16 +34,42 @@ class User{
             return false;
         }
     }
+    public function readOne()
+    {
+        $query= "SELECT * FROM ".$this->table_name." WHERE Email= ?";
+        $stmt=$this->conn->prepare($query);
+        $this->Email=htmlspecialchars(strip_tags($this->Email));
+        $stmt->bindParam(1, $this->Email);
+        $stmt->execute();
+        return $stmt;
+    }
     public function read()
     {
-        $query= "SELECT * FROM ".$this->table_name." WHERE Username= ? and Password=?";
+        $query= "SELECT * FROM ".$this->table_name." WHERE Username= ? and Password=? and Active";
         $stmt=$this->conn->prepare($query);
         $this->Username=htmlspecialchars(strip_tags($this->Username));
         $this->Password=htmlspecialchars(strip_tags($this->Password));
         $stmt->bindParam(1, $this->Username);
         $stmt->bindParam(2, $this->Password);
         $stmt->execute();
-        return $stmt;
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        $this->IdUser=$row["IdUser"];
+        $this->Username=$row["Username"];
+        $this->Email=$row["Email"];
+        $this->Password=$row["Password"];
+        $this->Akses=$row["Akses"];
+        $this->Hash=$row["Hash"];
+        $this->Active=$row["Active"];
+    }
+    public function CheckSession()
+    {
+        session_start();
+        if(!isset($_SESSION['Username']))
+        {
+            return false;
+        }else{
+            return $_SESSION;
+        }
     }
 }
 

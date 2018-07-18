@@ -1,0 +1,88 @@
+<div ng-init="Init()">
+    <div class="page-breadcrumb">
+        <div class="row">
+            <div class="col-12 d-flex no-block align-items-center">
+                <h4 class="page-title">Data Calon Penerima Beasiswa Bidikmisi</h4>
+                <div class="ml-auto text-right">
+                    <!-- <a class="float-right" title="Tambah Kriteria" data-toggle="modal" ng-click="TombolTambahGejala()" data-target="#TambahKriteria">
+                        <font size="10px" color="blue"><i class="mdi mdi-plus-circle"></i></font>
+                    </a> -->
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <br>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="col-6">
+                    <div class="form-group row">
+                        <label for="NPM" class="col-sm-3 text-right control-label col-form-label">NPM</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="npm" ng-model="DataVerifikasi.Biodata.NPM" placeholder="NPM" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="Nama" class="col-sm-3 text-right control-label col-form-label">Nama</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="npm" ng-model="DataVerifikasi.Biodata.NamaMahasiswa" placeholder="Nama Mahasiswa">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="Sex" class="col-sm-3 text-right control-label col-form-label">Jenis Kelamin</label>
+                        <div class="col-sm-9 form-inline">
+                            <div class="custom-control custom-radio">
+                                <input type="radio" class="custom-control-input" id="Pria" ng-model="DataVerifikasi.Biodata.Sex" value="Pria" name="Sex" required>
+                                <label class="custom-control-label" for="Pria">Pria &nbsp;&nbsp;</label>
+                            </div>
+                            <div class="custom-control custom-radio">
+                                <input type="radio" class="custom-control-input" id="Wanita" ng-model="DataVerifikasi.Biodata.Sex" value="Wanita" name="Sex" required>
+                                <label class="custom-control-label" for="Wanita">Wanita</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="Alamat" class="col-sm-3 text-right control-label col-form-label">Alamat</label>
+                        <div class="col-sm-9">
+                            <textarea class="form-control" id="Alamat" ng-model="DataVerifikasi.Biodata.Alamat" placeholder="Alamat"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="Kontak" class="col-sm-3 text-right control-label col-form-label">Kontak</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="Kontak" ng-model="DataVerifikasi.Biodata.Kontak" placeholder="ex. 0811xxxxxxx">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="Kelas" class="col-sm-3 text-right control-label col-form-label">Kelas</label>
+                        <div class="col-sm-9 form-inline">
+                            <div class="custom-control custom-radio">
+                                <input type="radio" class="custom-control-input" id="P" ng-model="DataVerifikasi.Biodata.Kelas" value="Pagi" name="Kelas" required>
+                                <label class="custom-control-label" for="P">Pagi &nbsp;&nbsp;</label>
+                            </div>
+                            <div class="custom-control custom-radio">
+                                <input type="radio" class="custom-control-input" id="S" ng-model="DataVerifikasi.Biodata.Kelas" value="Sore" name="Kelas" required>
+                                <label class="custom-control-label" for="S">Sore</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 text-right control-label col-form-label">Foto</label>
+                        <div class="col-md-9">
+                            <div class="custom-file">
+                                <input type="file" file-input="files" ng-model="DataVerifikasi.Biodata.Photo" class="custom-file-input" id="validatedCustomFile" onchange="angular.element(this).scope().uploadedFile(this);" required>
+                                <label class="custom-file-label" for="validatedCustomFile">{{DataVerifikasi.Biodata.Photo}}</label>
+                                <!-- <div class="invalid-feedback">Example invalid custom file feedback</div> -->
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-primary" ng-click="Simpan()">Save changes</button>
+                </div>
+                <div class="col-6">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
