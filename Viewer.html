@@ -1,0 +1,27 @@
+<div class="row" style="border: green;">
+    <div class="col-sm-12" id="nav">
+        <nav ng-class="getNavStyle(scroll)">
+            <div class="col-sm-12">
+                <span ng-click="goPrevious()" class="ui-icon fa fa-angle-double-left bigger-140"></span>
+                <span ng-click="goNext()" class="ui-icon fa fa-angle-double-right bigger-140"></span>
+                <!-- <span ng-click="zoomIn()" class="ui-icon fa fa-plus-circle"></span>
+                <span ng-click="fit()"><span>100%</span></span>
+                <span ng-click="zoomOut()" class="ui-icon fa fa-minus-circle"></span>
+
+                <span ng-click="rotate()">90</span>
+
+                <span>Page: </span>
+                <span></span> -->
+            </div>
+            <div class="col-sm-2 padd">
+                <input class="form-control input-sm" class="col-sm-2" type="text" min=1 ng-model="pageNum">
+            </div>
+            <!-- <div class="col-sm-5"><span> / {{pageCount}}</span> &nbsp;&nbsp;
+                <span>Document URL: </span>
+                <div class="col-sm-6 padd"><input type="text" class="form-control input-sm" ng-model="pdfUrl"></div>
+            </div> -->
+        </nav>
+    </div>
+</div>
+<hr> {{loading}}
+<canvas id="pdf" class="rotate0"></canvas>

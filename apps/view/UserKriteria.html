@@ -21,6 +21,7 @@
                         <div class="card" ng-show="tampilData" ng-hide="showData">
                             <div class="card-header">
                                 <div class="card-body">
+
                                     <div class="form-group row">
                                         <label for="fname" class="col-sm-3 text-right control-label col-form-label">{{DataForm.Keterangan}}</label>
                                         <div class="col-sm-9">
@@ -29,8 +30,8 @@
                                     </div>
                                     <div class="form-group row">
                                         <label for="lname" class="col-sm-3 text-right control-label col-form-label">Berkas Pendukung</label>
-                                        <div class="col-sm-9" ng-show="InputData.Berkas!=null">
-                                            <a href="assets/berkas/{{InputData.Berkas}}" target="_blank"><i class="mdi mdi-file-pdf" style="color: green;"></i> {{InputData.Berkas}}</a>
+                                        <div class="col-sm-9" ng-hide="InputData.Berkas==null">
+                                            <a href="assets/berkas/{{InputData.Berkas}}" target="_blank"><i class="mdi mdi-file-pdf" style="color: green;"></i>{{InputData.Berkas}}</a>
                                         </div>
                                     </div>
                                 </div>
@@ -76,8 +77,10 @@
                                 </div>
                             </form>
                         </div>
-
                     </div>
+                </div>
+                <div ng-show="tampilData" ng-hide="showData">
+                    <ng-pdf template-url="Viewer.html" canvasid="pdf" scale="page-fit" page=1></ng-pdf>
                 </div>
             </div>
         </div>
@@ -161,6 +164,7 @@
             </div>
         </div>
     </div>
+
     <div class="modal fade" id="EditKriteria" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -227,4 +231,5 @@
             </div>
         </div>
     </div>
+
 </div>

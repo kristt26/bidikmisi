@@ -23,6 +23,19 @@ class TahunAjaran{
         $this->TanggalBuka= $row["TanggalBuka"];
         $this->TanggalTutup= $row["TanggalTutup"];
     }
+    public function readOne()
+    {
+        $query = "SELECT * FROM ".$this->table_name." WHERE IdTahunAjaran= ?";
+        $stmt = $this->conn->prepare($query);
+        $this->IdTahunAjaran = htmlspecialchars(strip_tags($this->IdTahunAjaran));
+        $stmt->bindParam(1, $this->IdTahunAjaran);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        $this->TahunAjaran = $row['TahunAjaran'];
+        $this->TanggalBuka = $row['TanggalBuka'];
+        $this->TanggalTutup = $row['TanggalTutup'];
+        $this->Keterangan = $row['Keterangan'];
+    }
 }
 
 ?>

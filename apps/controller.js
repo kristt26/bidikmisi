@@ -219,7 +219,7 @@ angular.module("Ctrl", [])
                 })
         }
     })
-    .controller("MahasiswaKriteriaController", function($scope, $http) {
+    .controller("MahasiswaKriteriaController", function($scope, $http, $sce) {
         $scope.DatasKriteria = [];
         $scope.DataForm = {};
         $scope.InputData = {};
@@ -227,6 +227,7 @@ angular.module("Ctrl", [])
         $scope.showData = true;
         $scope.showadd = true;
         $scope.tampilData = false;
+        $scope.pdfUrl;
         $scope.Init = function() {
             $scope.tampil = false;
             var UrlGetKriteria = "api/datas/read/ReadKriteriaMahasiswa.php";
@@ -244,6 +245,27 @@ angular.module("Ctrl", [])
                     alert(error);
                 })
         }
+
+        $scope.pdfName = 'test';
+        $scope.scroll = 0;
+        $scope.loading = 'loading';
+
+        $scope.getNavStyle = function(scroll) {
+            if (scroll > 100) return 'pdf-controls fixed';
+            else return 'pdf-controls';
+        }
+
+        $scope.onError = function(error) {
+            console.log(error);
+        }
+
+        $scope.onLoad = function() {
+            $scope.loading = '';
+        }
+
+        $scope.onProgress = function(progressData) {
+            console.log(progressData);
+        };
         $scope.ShowForm = function(item) {
             $scope.InputData = {};
             $scope.DataForm = item;
@@ -256,6 +278,7 @@ angular.module("Ctrl", [])
             if (item.Nilai != null) {
                 $scope.InputData.Nilai = item.Nilai;
                 $scope.InputData.Berkas = item.KriteriaMhasiswa[0].Berkas;
+                $scope.pdfUrl = "assets/berkas/" + $scope.InputData.Berkas;
                 angular.forEach(item.SubKriteria, function(value, key) {
                     if (value.BobotSubKriteria == item.Nilai) {
                         $scope.InputData.Jarak = value.Jarak;
@@ -422,6 +445,41 @@ angular.module("Ctrl", [])
                 }, function(error) {
 
                 });
+        }
+
+    })
+    .controller("ListMahasiswaController", function($scope, $http) {
+        $scope.DatasMahasiswas = [];
+        $scope.EditBerkas = {};
+        $scope.pdfUrl;
+        $http.get('api/datas/read/ReadDataMahasiswa.php').then(function(response) {
+            //$scope.NPM = response.data.Biodata[0].NPM;
+            $scope.DatasMahasiswas = response.data.record;
+        });
+        $scope.pdfName;
+        $scope.scroll = 0;
+        $scope.loading = 'loading';
+
+        $scope.getNavStyle = function(scroll) {
+            if (scroll > 100) return 'pdf-controls';
+            else return 'pdf-controls';
+        }
+
+        $scope.onError = function(error) {
+            console.log(error);
+        }
+
+        $scope.onLoad = function() {
+            $scope.loading = '';
+        }
+
+        $scope.onProgress = function(progressData) {
+            console.log(progressData);
+        }
+        $scope.Verivikasi = function(item) {
+            $scope.pdfUrl = "assets/berkas/" + item.KriteriaMahasiswa[0].Berkas;
+            $scope.pdfName = item.KriteriaMahasiswa[0].Berkas;
+            $scope.EditBerkas = item;
         }
 
     });

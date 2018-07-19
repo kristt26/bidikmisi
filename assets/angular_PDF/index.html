@@ -1,0 +1,105 @@
+<html>
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <script src="assets/pdf.js"></script>
+    <script src="assets/angular-pdf.min.js"></script>
+    <script src="app.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        .wrapper {
+            margin: 0 auto;
+            width: 960px;
+        }
+        
+        .pdf-controls {
+            width: 100%;
+            display: block;
+            padding: 1em;
+        }
+        
+        .rotate0 {
+            -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+        }
+        
+        .rotate90 {
+            -webkit-transform: rotate(90deg);
+            transform: rotate(90deg);
+        }
+        
+        .rotate180 {
+            -webkit-transform: rotate(180deg);
+            transform: rotate(180deg);
+        }
+        
+        .rotate270 {
+            -webkit-transform: rotate(270deg);
+            transform: rotate(270deg);
+        }
+        
+        .fixed {
+            position: fixed;
+            top: 0;
+            left: calc(50% - 480px);
+            z-index: 100;
+            width: 100%;
+            padding: 1em;
+            background: rgba(238, 238, 238, .9);
+            width: 960px;
+        }
+        
+        .wrapper .ui-icon {
+            color: #B0B0B0;
+            background-color: #F7F7F7;
+            border-color: #DDD;
+            -moz-transform: scale(.9);
+            -webkit-transform: scale(.9);
+            -o-transform: scale(.9);
+            -ms-transform: scale(.9);
+            transform: scale(.9);
+        }
+        
+        .wrapper .ui-icon {
+            display: inline-block;
+            padding: 0;
+            width: 24px;
+            height: 24px;
+            line-height: 22px;
+            text-align: center;
+            position: static;
+            float: none;
+            margin: 0 2px!important;
+            color: grey;
+            border: 1px solid #CCC;
+            background-color: #FFF;
+            border-radius: 100%;
+        }
+        
+        #nav {
+            background-color: #EFF3F8!important;
+        }
+        
+        .padd {
+            padding-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body ng-app="TestApp" ng-controller="testController">
+    <div class="container">
+        <div class="wrapper">
+            <h1>Welcome in angularjs viewer Application</h1>
+            <ng-pdf template-url="app/partials/viewer.html" canvasid="pdf" scale="page-fit" page=1></ng-pdf>
+        </div>
+    </div>
+</body>
+
+</html>

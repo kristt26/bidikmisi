@@ -1,0 +1,11 @@
+You can download source code and Demo from below link.
+<div class="download-panel col-sm-12">
+<div class="col-sm-3">
+<a href="http://js-tutorials.com/demos/angular_smarttable_add_edit_demo/" title="AngularJS Smart Table Example with Demos" target="_blank" class="marL10 btn btn-default download-button" rel="no-follow"><i class="glyphicon glyphicon-circle-arrow-right"></i>&nbsp; Live Demo</a>
+</div>
+[sociallocker]
+<div class="col-sm-9">
+<a href="http://js-tutorials.com/source_code/angular_smarttable_source/angular_smarttable_source.zip" title="AngularJS Smart Table Example with Demos" target="_blank" class="btn btn-default download-button" rel="no-follow"><i class="glyphicon glyphicon-globe"></i>&nbsp;Download Source Code</a>
+</div>
+[/sociallocker]
+</div>

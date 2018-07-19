@@ -29,6 +29,17 @@ class SubKriteria{
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         $this->IdKriteria = $row["IdKriteria"];
     }
+    public function readbyIdKriteriaBobot()
+    {
+        $query = "SELECT * FROM ".$this->table_name." WHERE IdKriteria= ? and BobotSubKriteria=?";
+        $stmt = $this->conn->prepare($query);
+        $this->IdKriteria=htmlspecialchars(strip_tags($this->IdKriteria));
+        $stmt->bindParam(1, $this->IdKriteria);
+        $stmt->bindParam(2, $this->BobotSubKriteria);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        $this->Jarak = $row["Jarak"];
+    }
     public function create()
     {
         $query="INSERT INTO ". $this->table_name ." SET IdKriteria=:IdKriteria, Jarak=:Jarak, BobotSubKriteria=:BobotSubKriteria";

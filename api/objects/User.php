@@ -43,6 +43,18 @@ class User{
         $stmt->execute();
         return $stmt;
     }
+    public function readById()
+    {
+        $query= "SELECT * FROM ".$this->table_name." WHERE IdUser= ?";
+        $stmt=$this->conn->prepare($query);
+        $this->IdUser=htmlspecialchars(strip_tags($this->IdUser));
+        $stmt->bindParam(1, $this->IdUser);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        $this->Username = $row['Username'];
+        $this->Email = $row['Email'];
+        $this->Active = $row['Active'];
+    }
     public function read()
     {
         $query= "SELECT * FROM ".$this->table_name." WHERE Username= ? and Password=? and Active";

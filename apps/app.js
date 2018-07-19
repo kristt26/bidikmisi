@@ -1,4 +1,4 @@
-var app = angular.module("app", ["ngRoute", "Ctrl"])
+var app = angular.module("app", ["ngRoute", "Ctrl", "datatables", "pdf"])
     .run(function($rootScope, $http) {
         // $rootScope.DataVerifikasi = {};
         // var UrlVerifikasiData = "api/datas/read/VerifikasiData.php";
@@ -29,7 +29,7 @@ app.config(function($routeProvider) {  
         })
         .when("/ListMahasiswa", {
             templateUrl: "apps/view/ListMahasiswa.html",
-            controller: "MahasiswaController"
+            controller: "ListMahasiswaController"
         })
         .otherwise({ redirectTo: '/Main' });
 });
