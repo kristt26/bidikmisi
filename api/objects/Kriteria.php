@@ -20,8 +20,15 @@ class Kriteria{
     }
     public function readOne()
     {
-        $query = "SELECT * FROM ".$this->table_name." WHERE IdKriteria";
+        $query = "SELECT * FROM ".$this->table_name." WHERE IdKriteria=?";
         $stmt = $this->conn->prepare($query);
+        $this->IdKriteria = htmlspecialchars(strip_tags($this->IdKriteria));
+        $stmt->bindParam(1, $this->IdKriteria);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        $this->Kriteria = $row["Kriteria"];
+        $this->Bobot = $row["Bobot"];
+        $this->Keterangan = $row["Keterangan"];
     }
     public function create()
     {

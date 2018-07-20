@@ -1,70 +1,71 @@
+<div class="page-breadcrumb">
+    <div class="row">
+        <div class="col-12 d-flex no-block align-items-center">
+            <h4 class="page-title">Verifikasi Data Calon Penerima Beasiswa</h4>
+            <div class="ml-auto text-right">
+                <!-- <a class="float-right" title="Tambah Kriteria" data-toggle="modal" ng-click="TombolTambahGejala()" data-target="#TambahKriteria">
+                            <font size="10px" color="blue"><i class="mdi mdi-plus-circle"></i></font>
+                        </a> -->
+            </div>
+        </div>
+
+    </div>
+</div>
+<br>
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
             <div class="card">
-                <ul class="nav nav-tabs" role="tablist">
-                    <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="" data-target="#home" role="tab"><span class="hidden-sm-up"></span> <span class="hidden-xs-down">Seleksi Berkas</span></a> </li>
-                    <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="" data-target="#profile" role="tab"><span class="hidden-sm-up"></span> <span class="hidden-xs-down">Tab2</span></a> </li>
-                    <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="" data-target="#messages" role="tab"><span class="hidden-sm-up"></span> <span class="hidden-xs-down">Tab3</span></a> </li>
-                </ul>
-                <div class="tab-content tabcontent-border">
-                    <div class="tab-pane active" id="home" role="tabpanel">
-                        <div class="p-20">
-
-                            <table datatable="ng" id="zero_config" class="table table-striped table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>NPM</th>
-                                        <th>Nama</th>
-                                        <th>Kelas</th>
-                                        <th>Tahun Pendaftaran</th>
-                                        <th>Status</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="Mahasiswa in DatasMahasiswas">
-                                        <td>{{Mahasiswa.NPM}}</td>
-                                        <td>{{Mahasiswa.NamaMahasiswa}}</td>
-                                        <td>{{Mahasiswa.Kelas}}</td>
-                                        <td>{{Mahasiswa.TahunAjaran}}</td>
-                                        <td>{{Mahasiswa.Status}}</td>
-                                        <td>
-                                            <div class="btn-group" ng-hide="Mahasiswa.NPM==null">
-                                                <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Berkas</button>
-                                                <div class="dropdown-menu">
-                                                    <div ng-repeat="Kriteria in Mahasiswa.Kriteria">
-                                                        <a href="" data-toggle="modal" data-placement="top" title="Verifikasi Data" ng-click="Verivikasi(Kriteria)" data-target="#verifikasi">
-                                                            {{Kriteria.Keterangan}}
-                                                        </a>
-
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                            <a class="btn btn-secondary dropdown-toggle" ng-show="Mahasiswa.NPM==null" data-placement="top" title="Verifikasi Data">
-                                                    Berkas
-                                                </a>
-                                            <a href="" data-toggle="modal" class="btn btn-info" data-placement="top" title="Send Email" ng-click="Verivikasi(Kriteria)" data-target="#verifikasi">
-                                                <font><i class="mdi mdi-email"></i></font>
+                <table datatable="ng" id="zero_config" class="table table-striped table-bordered">
+                    <thead>
+                        <tr class="text-center" style="font-style:oblique;">
+                            <th width="10%"><b>NPM</b></th>
+                            <th><b>Nama</b></th>
+                            <th width="5%"><b>Kelas</b></th>
+                            <th width="10%"><b>Username</b></th>
+                            <th width="10"><b>Email</b></th>
+                            <th width="10%"><b>Tahun Pendaftaran</b></th>
+                            <th width="10%"><b>Status</b></th>
+                            <th width="15%"><b>Action</b></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="Mahasiswa in DatasMahasiswas">
+                            <td>{{Mahasiswa.NPM}}</td>
+                            <td>{{Mahasiswa.NamaMahasiswa}}</td>
+                            <td>{{Mahasiswa.Kelas}}</td>
+                            <td>{{Mahasiswa.User[0].Username}}</td>
+                            <td>{{Mahasiswa.User[0].Email}}</td>
+                            <td>{{Mahasiswa.TahunAjaran}}</td>
+                            <td>{{Mahasiswa.Status}}</td>
+                            <td>
+                                <div class="btn-group" ng-hide="Mahasiswa.NPM==null">
+                                    <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Berkas</button>
+                                    <div class="dropdown-menu">
+                                        <div ng-repeat="Kriteria in Mahasiswa.Kriteria">
+                                            <a ng-show="Kriteria.KriteriaMahasiswa[0].Status=='true'">
+                                                <font color="gray">{{Kriteria.Keterangan}}</font>
                                             </a>
+                                            <a href="" data-toggle="modal" ng-show="Kriteria.KriteriaMahasiswa[0].Status=='pending'" data-placement="top" title="Verifikasi Data" ng-click="Verivikasi(Kriteria)" data-target="#verifikasi">
+                                                {{Kriteria.Keterangan}}
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a class="btn btn-primary disabled" ng-disabled="true" ng-show="Mahasiswa.NPM==null" data-placement="top" title="Verifikasi Data">
+                                                Berkas
+                                            </a>
+                                <a href="" data-toggle="modal" class="btn btn-info" data-placement="top" title="Send Email" ng-click="Verivikasi(Kriteria)" data-target="#verifikasi">
+                                    <font><i class="mdi mdi-email"></i></font>
+                                </a>
 
-                                        </td>
+                            </td>
 
-                                    </tr>
+                        </tr>
 
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="tab-pane" id="profile" role="tabpanel">
-                        <div class="p-20">
-                            <div class="row">
+                    </tbody>
+                </table>
 
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -80,19 +81,15 @@
                                 </button>
             </div>
             <div class="modal-body">
-                <div class="row">
-                    <div class="form-group row">
-                        <label for="Kontak" class="col-sm-7 text-right control-label col-form-label">Data {{EditBerkas.Keterangan}}</label>
-                        <div class="col-sm-3">
-                            <input type="text" class="form-control" id="Kontak" ng-model="EditBerkas.KriteriaMahasiswa[0].Jarak">
-                        </div>
-                    </div>
-                </div>
+
+                Data {{EditBerkas.Keterangan}}:&nbsp; {{EditBerkas.KriteriaMahasiswa[0].Jarak}}
+                <br>
                 <ng-pdf template-url="Viewer.html" canvasid="pdf" scale="page-fit" page=1></ng-pdf>
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" ng-click="UpdateSubKriteria()">Save changes</button>
+                <button type="button" class="btn btn-primary" ng-click="ValidateKriteria()">Validate</button>
             </div>
         </div>
     </div>

@@ -221,6 +221,7 @@ angular.module("Ctrl", [])
     })
     .controller("MahasiswaKriteriaController", function($scope, $http, $sce) {
         $scope.DatasKriteria = [];
+        $scope.Biodata = {};
         $scope.DataForm = {};
         $scope.InputData = {};
         $scope.tampilAdd = false;
@@ -229,21 +230,32 @@ angular.module("Ctrl", [])
         $scope.tampilData = false;
         $scope.pdfUrl;
         $scope.Init = function() {
-            $scope.tampil = false;
-            var UrlGetKriteria = "api/datas/read/ReadKriteriaMahasiswa.php";
-            $http({
-                    method: "GET",
-                    url: UrlGetKriteria
-                })
-                .then(function(response) {
-                    if (response.data.message == "Kriteria found")
-                        $scope.DatasKriteria = response.data.Kriteria;
-                    else
-                        alert(response.data.message);
+            var UrlVerifikasiData = "api/datas/read/VerifikasiData.php";
+            $http.get(UrlVerifikasiData).then(function(response) {
+                //$scope.NPM = response.data.Biodata[0].NPM;
+                $scope.Biodata = angular.copy(response.data.Biodata[0]);
+                if ($scope.Biodata.NPM != null || $scope.Biodata.NamaMahasiswa != null || $scope.Biodata.Kontak != null || $scope.Biodata.Kelas != null || $scope.Biodata.Alamat != null || $scope.Biodata.Photo != null) {
+                    $scope.tampil = false;
+                    var UrlGetKriteria = "api/datas/read/ReadKriteriaMahasiswa.php";
+                    $http({
+                            method: "GET",
+                            url: UrlGetKriteria
+                        })
+                        .then(function(response) {
+                            if (response.data.message == "Kriteria found")
+                                $scope.DatasKriteria = angular.copy(response.data.Kriteria);
+                            else
+                                alert(response.data.message);
 
-                }, function(error) {
-                    alert(error);
-                })
+                        }, function(error) {
+                            alert(error);
+                        })
+                } else {
+                    alert("Lengkapi Biodata Anda terlebih dahulu");
+                    window.location.href = 'mahasiswa.html#!/Mahasiswa';
+                }
+            });
+
         }
 
         $scope.pdfName = 'test';
@@ -267,6 +279,7 @@ angular.module("Ctrl", [])
             console.log(progressData);
         };
         $scope.ShowForm = function(item) {
+            $scope.pdfUrl = undefined;
             $scope.InputData = {};
             $scope.DataForm = item;
             $scope.tampilData = true;
@@ -348,6 +361,7 @@ angular.module("Ctrl", [])
                                             value.KriteriaMhasiswa[0].Berkas = $scope.InputData.Berkas;
                                             value.KriteriaMhasiswa[0].Nilai = $scope.InputData.Nilai;
                                             value.KriteriaMhasiswa[0].Status = "Pending";
+                                            $scope.pdfUrl = "assets/berkas/" + $scope.InputData.Berkas;
                                         }
                                     })
                                 }
@@ -481,5 +495,165 @@ angular.module("Ctrl", [])
             $scope.pdfName = item.KriteriaMahasiswa[0].Berkas;
             $scope.EditBerkas = item;
         }
+        $scope.SelectedMahasiswa = function() {
+            angular.forEach($scope.DatasMahasiswas, function(value, key) {
 
+            })
+        }
+        $scope.ValidateKriteria = function() {
+            $http({
+                    method: "POST",
+                    url: "api/datas/update/ValidateKriteria.php",
+                    data: $scope.EditBerkas.KriteriaMahasiswa[0].IdKriteriaMahasiswa
+                })
+                .then(function(response) {
+                    if (response.data.message == "Success!!!") {
+                        $scope.EditBerkas.KriteriaMahasiswa[0].Status = "true";
+                        alert(response.data.message);
+                    } else
+                        alert(response.data.message);
+                }, function(error) {
+                    alert(error);
+                })
+        }
+
+    })
+    .controller("SeleksiController", function($scope, $http) {
+        $scope.Datas = [];
+        $scope.DatasPilih = [];
+        $scope.DatasProses = [];
+        $scope.Dataselected = {};
+        $scope.a;
+        $http.get('api/datas/read/ReadDataProses.php').then(function(response) {
+            //$scope.NPM = response.data.Biodata[0].NPM;
+            $scope.Datas = response.data;
+            angular.forEach($scope.Datas.Mahasiswas, function(value1, key1) {
+                value1.Cheked = "Tidak";
+                $scope.a = false;
+                angular.forEach($scope.Datas.Years, function(value2, key2) {
+                    if (value1.TahunAjaran == value2.IdTahunAjaran) {
+                        value1.Year = angular.copy(value2.TahunAjaran);
+                    }
+                })
+
+                angular.forEach($scope.Datas.HasilAkhir, function(value3, key3) {
+                    if (value1.IdMahasiswa == value3.IdMahasiswa) {
+                        $scope.a = true;
+                    }
+                })
+                angular.forEach(value1.Kriterias, function(value4, key4) {
+                    if (value4.Status == "pending") {
+                        $scope.a = true;
+                    }
+                })
+                if ($scope.a == false) {
+                    $scope.DatasPilih.push(angular.copy(value1));
+                }
+            })
+        });
+        $scope.check = function() {
+            var a = $scope.Dataselected;
+        }
+        $scope.PilihData = function(item) {
+            if (item.Cheked == "Pilih") {
+                item.Cheked = "Tidak";
+            } else {
+                item.Cheked = "Pilih";
+                $scope.DatasProses.push(angular.copy(item));
+            }
+
+        }
+        $scope.TotalMatriks = function(item) {
+            var total = 0;
+            angular.forEach($scope.MatriksNormalisasi, function(value, key) {
+                angular.forEach(value.Kriterias, function(value1, key1) {
+                    if (value1.Kriteria == item)
+                        total += value1.Nilai;
+                })
+            })
+            return total;
+        }
+        $scope.Proses = function() {
+            $scope.NilaiPositif = [];
+            $scope.NilaiNegatif = [];
+            $scope.Matriks = [];
+            $scope.MatriksNormalisasi = [];
+            $scope.NormalisasiTerbobot = [];
+            $scope.Matriks = angular.copy($scope.DatasProses);
+            $scope.MatriksNormalisasi = angular.copy($scope.DatasProses);
+            angular.forEach($scope.MatriksNormalisasi, function(value, key) {
+                angular.forEach(value.Kriterias, function(value1, key1) {
+                    var a = angular.copy(value1.Nilai);
+                    value1.Nilai = Math.pow(a, 2);
+                })
+            })
+            angular.forEach($scope.Matriks, function(value, key) {
+                angular.forEach(value.Kriterias, function(value1, key1) {
+                    var total = 0;
+                    total = angular.copy($scope.TotalMatriks(value1.Kriteria));
+                    var a = 0;
+                    a = angular.copy(value1.Nilai) / Math.sqrt(total);
+                    value1.Nilai = a;
+                })
+            });
+            $scope.GetMaxValue = function(item) {
+                var Datatampung = [];
+
+                angular.forEach($scope.NormalisasiTerbobot, function(value, key) {
+                    angular.forEach(value.Kriterias, function(val1, key1) {
+                        if (val1.Kriteria == item) {
+                            Datatampung.push(angular.copy(val1.Nilai));
+                        }
+                    })
+                })
+                var c = 0;
+                c = Math.max.apply(Math, Datatampung.map(function(item1) { return item1; }));
+                return c;
+            }
+            $scope.GetMinValue = function(item) {
+                var Datatampung = [];
+
+                angular.forEach($scope.NormalisasiTerbobot, function(value, key) {
+                    angular.forEach(value.Kriterias, function(val1, key1) {
+                        if (val1.Kriteria == item) {
+                            Datatampung.push(angular.copy(val1.Nilai));
+                        }
+                    })
+                })
+                var c = 0;
+                c = Math.min.apply(Math, Datatampung.map(function(item1) { return item1; }));
+                return c;
+            }
+            $scope.NormalisasiTerbobot = angular.copy($scope.Matriks);
+            angular.forEach($scope.NormalisasiTerbobot, function(value, key) {
+                angular.forEach(value.Kriterias, function(value1, key1) {
+                    var a = angular.copy(value1.Nilai);
+                    var b = parseInt(value1.Bobot);
+                    value1.Nilai = a * b;
+                })
+            })
+            angular.forEach($scope.NormalisasiTerbobot[0].Kriterias, function(value, key) {
+                var Datass = {};
+                var a = $scope.GetMaxValue(value.Kriteria);
+                Datass.Kriteria = value.Kriteria;
+                Datass.Nilai = a;
+                $scope.NilaiPositif.push(angular.copy(Datass));
+                var Datass = {};
+                var a = $scope.GetMinValue(value.Kriteria);
+                Datass.Kriteria = value.Kriteria;
+                Datass.Nilai = a;
+                $scope.NilaiNegatif.push(angular.copy(Datass));
+            })
+            angular.forEach($scope.NormalisasiTerbobot, function(value, key) {
+                angular.forEach(value.Kriterias, function(value1, key1) {
+
+                })
+            })
+            var b = $scope.NilaiPositif;
+
+
+
+
+
+        }
     });

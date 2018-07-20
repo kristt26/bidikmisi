@@ -1,0 +1,204 @@
+<div ng-init="Init()">
+    <div class="page-breadcrumb">
+        <div class="row">
+            <div class="col-12 d-flex no-block align-items-center">
+                <h4 class="page-title">Data Calon Penerima Beasiswa Bidikmisi</h4>
+                <div class="ml-auto text-right">
+                    <!-- <a class="float-right" title="Tambah Kriteria" data-toggle="modal" ng-click="TombolTambahGejala()" data-target="#TambahKriteria">
+                            <font size="10px" color="blue"><i class="mdi mdi-plus-circle"></i></font>
+                        </a> -->
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <br>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="" data-target="#daftar" role="tab"><span class="hidden-sm-up"></span> <span class="hidden-xs-down">Daftar Hasil Perhitungan TOPSIS</span></a> </li>
+                        <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="" data-target="#profile" role="tab" ng-click="SelectedMahasiswa()"><span class="hidden-sm-up"></span> <span class="hidden-xs-down">Pilih Mahasiswa</span></a> </li>
+                        <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="" data-target="#topsis" role="tab"><span class="hidden-sm-up"></span> <span class="hidden-xs-down">Proses TOPSIS</span></a> </li>
+                    </ul>
+                    <div class="tab-content tabcontent-border">
+
+                        <div class="tab-pane active" id="daftar" role="tabpanel">
+                            <div class="p-20">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="form-group row">
+                                            <label class="col-md-2" for="disabledTextInput">Tahun Penerimaan</label>
+                                            <div class="col-md-3">
+                                                <select ng-options="item as item.TahunAjaran for item in Datas.Years track by item.IdTahunAjaran" class="form-control" ng-model="Dataselected" ng-selected="check()"></select>
+                                                <!-- <input type="date" id="disabledTextInput" placeholder="Disabled input"> -->
+                                            </div>
+                                        </div>
+                                        <table datatable="ng" id="zero_config" class="table table-striped table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>NPM</th>
+                                                    <th>Nama</th>
+                                                    <th>Kelas</th>
+                                                    <th>Tahun Pendaftaran</th>
+                                                    <th>Status</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="Mahasiswa in Datas.Mahasiswas | filter: Dataselected.TahunAjaran">
+                                                    <td>{{Mahasiswa.NPM}}</td>
+                                                    <td>{{Mahasiswa.NamaMahasiswa}}</td>
+                                                    <td>{{Mahasiswa.Kelas}}</td>
+                                                    <td>{{Mahasiswa.Years}}</td>
+                                                    <td>{{Mahasiswa.Status}}</td>
+                                                    <td>
+                                                        <div class="btn-group" ng-hide="Mahasiswa.NPM==null">
+                                                            <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Berkas</button>
+                                                            <div class="dropdown-menu">
+                                                                <div ng-repeat="Kriteria in Mahasiswa.Kriteria">
+                                                                    <a href="" data-toggle="modal" data-placement="top" title="Verifikasi Data" ng-click="Verivikasi(Kriteria)" data-target="#verifikasi">
+                                                                                                {{Kriteria.Keterangan}}
+                                                                                            </a>
+
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                        <a class="btn btn-secondary dropdown-toggle" ng-show="Mahasiswa.NPM==null" data-placement="top" title="Verifikasi Data">
+                                                                                        Berkas
+                                                                                    </a>
+                                                        <a href="" data-toggle="modal" class="btn btn-info" data-placement="top" title="Send Email" ng-click="Verivikasi(Kriteria)" data-target="#verifikasi">
+                                                            <font><i class="mdi mdi-email"></i></font>
+                                                        </a>
+
+                                                    </td>
+
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="profile" role="tabpanel">
+                            <div class="p-20">
+                                <table datatable="ng" id="zero_config" class="table table-striped table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>NPM</th>
+                                            <th>Nama</th>
+                                            <th>Kelas</th>
+                                            <th>Tahun Pendaftaran</th>
+                                            <th>Status</th>
+                                            <!-- <th>Action</th> -->
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="Mahasiswa in DatasPilih">
+                                            <td>
+                                                <a href="" ng-show="Mahasiswa.Cheked=='Tidak'" data-toggle="modal" data-placement="top" title="Send Email" ng-click="PilihData(Mahasiswa)" data-target="#verifikasi">
+                                                    <font><i class="far fa-square"></i></font>
+                                                </a>
+                                                <a href="" ng-show="Mahasiswa.Cheked=='Pilih'" data-toggle="modal" data-placement="top" title="Send Email" ng-click="PilihData(Mahasiswa)" data-target="#verifikasi">
+                                                    <font><i class="fas fa-check-square"></i></font>
+                                                </a>
+
+                                            </td>
+                                            <td>{{Mahasiswa.NPM}}</td>
+                                            <td>{{Mahasiswa.NamaMahasiswa}}</td>
+                                            <td>{{Mahasiswa.Kelas}}</td>
+                                            <td>{{Mahasiswa.Year}}</td>
+                                            <td>{{Mahasiswa.Status}}</td>
+                                            <!-- <td>
+                                                <div class="btn-group" ng-hide="Mahasiswa.NPM==null">
+                                                    <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Berkas</button>
+                                                    <div class="dropdown-menu">
+                                                        <div ng-repeat="Kriteria in Mahasiswa.Kriteria">
+                                                            <a href="" data-toggle="modal" data-placement="top" title="Verifikasi Data" ng-click="Verivikasi(Kriteria)" data-target="#verifikasi">
+                                                                                    {{Kriteria.Keterangan}}
+                                                                                </a>
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <a class="btn btn-secondary dropdown-toggle" ng-show="Mahasiswa.NPM==null" data-placement="top" title="Verifikasi Data">
+                                                                            Berkas
+                                                                        </a>
+                                                <a href="" data-toggle="modal" class="btn btn-info" data-placement="top" title="Send Email" ng-click="Verivikasi(Kriteria)" data-target="#verifikasi">
+                                                    <font><i class="mdi mdi-email"></i></font>
+                                                </a>
+
+                                            </td> -->
+
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="topsis" role="tabpanel">
+                            <div class="p-20">
+                                <div>
+                                    <a class="btn btn-secondary dropdown-toggle" ng-click="Proses()" data-placement="top" title="Proses">
+                                        Proses
+                                    </a>
+                                </div>
+                                <table datatable="ng" id="zero_config" class="table table-striped table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>NPM</th>
+                                            <th>Nama</th>
+                                            <th>Kelas</th>
+                                            <th>Tahun Pendaftaran</th>
+                                            <th>Status</th>
+                                            <!-- <th>Action</th> -->
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="Mahasiswa in DatasPilih | filter: 'Pilih'">
+                                            <td>{{Mahasiswa.NPM}}</td>
+                                            <td>{{Mahasiswa.NamaMahasiswa}}</td>
+                                            <td>{{Mahasiswa.Kelas}}</td>
+                                            <td>{{Mahasiswa.Year}}</td>
+                                            <td>{{Mahasiswa.Status}}</td>
+                                            <!-- <td>
+                                                        <div class="btn-group" ng-hide="Mahasiswa.NPM==null">
+                                                            <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Berkas</button>
+                                                            <div class="dropdown-menu">
+                                                                <div ng-repeat="Kriteria in Mahasiswa.Kriteria">
+                                                                    <a href="" data-toggle="modal" data-placement="top" title="Verifikasi Data" ng-click="Verivikasi(Kriteria)" data-target="#verifikasi">
+                                                                                            {{Kriteria.Keterangan}}
+                                                                                        </a>
+        
+                                                                </div>
+        
+                                                            </div>
+                                                        </div>
+                                                        <a class="btn btn-secondary dropdown-toggle" ng-show="Mahasiswa.NPM==null" data-placement="top" title="Verifikasi Data">
+                                                                                    Berkas
+                                                                                </a>
+                                                        <a href="" data-toggle="modal" class="btn btn-info" data-placement="top" title="Send Email" ng-click="Verivikasi(Kriteria)" data-target="#verifikasi">
+                                                            <font><i class="mdi mdi-email"></i></font>
+                                                        </a>
+        
+                                                    </td> -->
+
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

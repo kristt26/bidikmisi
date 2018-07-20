@@ -48,6 +48,18 @@ class KriteriaMahasiswa
         $this->Berkas=$row["Berkas"];
         $this->Status=$row["Status"];
     }
+    public function update()
+    {
+        $query="UPDATE ". $this->table_name ." SET Status=:Status WHERE IdKriteriaMahasiswa=:IdKriteriaMahasiswa";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":Status", $this->Status);
+        $stmt->bindParam(":IdKriteriaMahasiswa", $this->IdKriteriaMahasiswa);
+        if($stmt->execute()){
+            return true;
+        }else {
+            return false;
+        }
+    }
 }
 
 ?>

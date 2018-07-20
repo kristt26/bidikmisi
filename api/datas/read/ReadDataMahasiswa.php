@@ -8,7 +8,6 @@ include_once '../../../api/config/database.php';
 include_once '../../../api/objects/User.php';
 include_once '../../../api/objects/Mahasiswa.php';
 include_once '../../../api/objects/TahunAjaran.php';
-include_once '../../../api/objects/User.php';
 include_once '../../../api/objects/Kriteria.php';
 include_once '../../../api/objects/KriteriaMahasiswa.php';
 include_once '../../../api/objects/SubKriteria.php';

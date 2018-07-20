@@ -31,6 +31,10 @@ app.config(function($routeProvider) {  
             templateUrl: "apps/view/ListMahasiswa.html",
             controller: "ListMahasiswaController"
         })
+        .when("/Seleksi", {
+            templateUrl: "apps/view/Seleksi.html",
+            controller: "SeleksiController"
+        })
         .otherwise({ redirectTo: '/Main' });
 });
 

@@ -12,7 +12,7 @@ if(!isset($_FILES['file_upload']))
     print json_encode($response);
     exit;
 }
-$f_name=uniqid("img_").str_replace(" ","-",$_FILES['file_upload']['name']);
+$f_name=uniqid("Berkas_").str_replace(" ","-",$_FILES['file_upload']['name']);
 $target_file="../../../assets/berkas/".$f_name;
 if(!move_uploaded_file($_FILES['file_upload']['tmp_name'], $target_file))
 {
