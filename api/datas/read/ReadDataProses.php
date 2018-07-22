@@ -56,6 +56,7 @@ while ($rowMahasiswa = $stmtMahasiswa->fetch(PDO::FETCH_ASSOC)) {
             "Nilai" => $kriteriaMahasiswa->Nilai,
             "Berkas" => $kriteriaMahasiswa->Berkas,
             "Status" => $kriteriaMahasiswa->Status,
+            "Jenis" => $Jenis
         );
         array_push($Mahasiswa["Kriterias"], $Kriteria);
     }

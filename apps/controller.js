@@ -518,12 +518,13 @@ angular.module("Ctrl", [])
         }
 
     })
-    .controller("SeleksiController", function($scope, $http) {
+    .controller("SeleksiController", function($scope, $http, $filter) {
         $scope.Datas = [];
         $scope.DatasPilih = [];
         $scope.DatasProses = [];
         $scope.Dataselected = {};
         $scope.a;
+        $scope.AlternatifAkhir = [];
         $http.get('api/datas/read/ReadDataProses.php').then(function(response) {
             //$scope.NPM = response.data.Biodata[0].NPM;
             $scope.Datas = response.data;
@@ -557,6 +558,7 @@ angular.module("Ctrl", [])
         $scope.PilihData = function(item) {
             if (item.Cheked == "Pilih") {
                 item.Cheked = "Tidak";
+                $scope.DatasProses.splice(item, 1);
             } else {
                 item.Cheked = "Pilih";
                 $scope.DatasProses.push(angular.copy(item));
@@ -574,8 +576,10 @@ angular.module("Ctrl", [])
             return total;
         }
         $scope.Proses = function() {
-            $scope.NilaiPositif = [];
-            $scope.NilaiNegatif = [];
+            $scope.AlternatifAkhir = [];
+            $scope.PositifValue = [];
+            $scope.NegatifValue = [];
+            $scope.JarakPositifNegatifValue = [];
             $scope.Matriks = [];
             $scope.MatriksNormalisasi = [];
             $scope.NormalisasiTerbobot = [];
@@ -628,32 +632,93 @@ angular.module("Ctrl", [])
             angular.forEach($scope.NormalisasiTerbobot, function(value, key) {
                 angular.forEach(value.Kriterias, function(value1, key1) {
                     var a = angular.copy(value1.Nilai);
-                    var b = parseInt(value1.Bobot);
+                    var b = parseInt(value1.Bobot) / 100;
                     value1.Nilai = a * b;
                 })
             })
-            angular.forEach($scope.NormalisasiTerbobot[0].Kriterias, function(value, key) {
-                var Datass = {};
-                var a = $scope.GetMaxValue(value.Kriteria);
-                Datass.Kriteria = value.Kriteria;
-                Datass.Nilai = a;
-                $scope.NilaiPositif.push(angular.copy(Datass));
-                var Datass = {};
-                var a = $scope.GetMinValue(value.Kriteria);
-                Datass.Kriteria = value.Kriteria;
-                Datass.Nilai = a;
-                $scope.NilaiNegatif.push(angular.copy(Datass));
-            })
-            angular.forEach($scope.NormalisasiTerbobot, function(value, key) {
-                angular.forEach(value.Kriterias, function(value1, key1) {
+            $scope.NilaiPositif = function() {
+                var NilaiDatas = [];
+                angular.forEach($scope.NormalisasiTerbobot[0].Kriterias, function(value, key) {
+                    var Datass = {};
+                    if (value.Jenis == "Benefit") {
+                        var a = $scope.GetMaxValue(value.Kriteria);
+                        Datass.Kriteria = value.Kriteria;
+                        Datass.Nilai = a;
+                        NilaiDatas.push(angular.copy(Datass));
+                    } else {
+                        var a = $scope.GetMinValue(value.Kriteria);
+                        Datass.Kriteria = value.Kriteria;
+                        Datass.Nilai = a;
+                        NilaiDatas.push(angular.copy(Datass));
+                    }
+                })
+                return NilaiDatas;
+            }
+            $scope.NilaiNegatif = function() {
+                var NilaiDatas = [];
+                angular.forEach($scope.NormalisasiTerbobot[0].Kriterias, function(value, key) {
+                    var Datass = {};
+                    if (value.Jenis == "Cost") {
+                        var a = $scope.GetMaxValue(value.Kriteria);
+                        Datass.Kriteria = value.Kriteria;
+                        Datass.Nilai = a;
+                        NilaiDatas.push(angular.copy(Datass));
+                    } else {
+                        var a = $scope.GetMinValue(value.Kriteria);
+                        Datass.Kriteria = value.Kriteria;
+                        Datass.Nilai = a;
+                        NilaiDatas.push(angular.copy(Datass));
+                    }
+                })
+                return NilaiDatas;
+            }
+            $scope.PositifValue = $scope.NilaiPositif();
+            $scope.NegatifValue = $scope.NilaiNegatif();
+            $scope.NilaiJarakPositifNegatif = function() {
+                var NilaiDatas = [];
+                var alternatif = 1;
+                angular.forEach($scope.NormalisasiTerbobot, function(value, key) {
+                    var a = 0;
+                    var b = {};
+                    var c = 0;
+                    angular.forEach(value.Kriterias, function(value1, key1) {
+                        angular.forEach($scope.PositifValue, function(value2, key2) {
+                            if (value1.Kriteria == value2.Kriteria) {
+                                a += Math.pow(value1.Nilai - value2.Nilai, 2);
+                            }
+                        })
+                        angular.forEach($scope.NegatifValue, function(value2, key2) {
+                            if (value1.Kriteria == value2.Kriteria) {
+                                c += Math.pow(value1.Nilai - value2.Nilai, 2);
+                            }
+                        })
+                    })
+                    b.NamaMahasiswa = value.NamaMahasiswa;
+                    b.Alternatif = "A" + alternatif;
+                    b.NilaiPositif = Math.sqrt(a);
+                    b.NilaiNegatif = Math.sqrt(c);
+                    alternatif++;
+                    NilaiDatas.push(angular.copy(b));
 
                 })
-            })
-            var b = $scope.NilaiPositif;
-
-
-
-
-
+                return NilaiDatas;
+            }
+            $scope.JarakPositifNegatifValue = $scope.NilaiJarakPositifNegatif();
+            $scope.alternatifAkhir = function() {
+                var Datass = [];
+                angular.forEach($scope.JarakPositifNegatifValue, function(value, key) {
+                    var a = 0;
+                    var b = {};
+                    a = (value.NilaiNegatif / (value.NilaiPositif + value.NilaiNegatif));
+                    b.NamaMahasiswa = value.NamaMahasiswa;
+                    b.Alternatif = value.Alternatif;
+                    b.NilaiAkhir = a;
+                    Datass.push(angular.copy(b));
+                })
+                return Datass;
+            }
+            $scope.AlternatifAkhir = $scope.alternatifAkhir();
+            $scope.AlternatifAkhir = $filter('orderBy')($scope.AlternatifAkhir, 'NilaiAkhir', true);
+            console.log(JSON.stringify($scope.AlternatifAkhir));
         }
     });
