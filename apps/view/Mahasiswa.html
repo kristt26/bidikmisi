@@ -14,7 +14,22 @@
     </div>
     <br>
     <div class="container-fluid">
-        <div class="row">
+        <div class="row" ng-hide="EditValue">
+            <div class="d-flex flex-row comment-row">
+                <div class="p-2"><img src="assets/img/{{DataVerifikasi.Biodata.Photo}}" alt="user" width="140" class="rounded-circle"></div>
+                <div class="comment-text active w-150">
+                    <h3 class="font-medium"><b> {{DataVerifikasi.Biodata.NamaMahasiswa}}</b></h3>
+                    <span class="m-b-15 d-block">NPM : <b>{{DataVerifikasi.Biodata.NPM}} </b></span>
+                    <span class="m-b-15 d-block">Jenis Kelamin : <b>{{DataVerifikasi.Biodata.Sex}}</b> </span>
+                    <span class="m-b-15 d-block">Kontak :<b> {{DataVerifikasi.Biodata.Kontak}}</b> </span>
+                    <span class="m-b-15 d-block">Kelas : <b>{{DataVerifikasi.Biodata.Kelas}} </b></span>
+                    <div class="comment-footer">
+                        <button type="button" class="btn btn-cyan btn-sm" ng-click="Edit()">Edit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-show="EditValue" class="row">
             <div class="col-12">
                 <div class="col-6">
                     <div class="form-group row">

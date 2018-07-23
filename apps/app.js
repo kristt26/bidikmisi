@@ -1,4 +1,4 @@
-var app = angular.module("app", ["ngRoute", "Ctrl", "datatables", "pdf"])
+var app = angular.module("app", ["ngRoute", "Ctrl", "datatables", "pdf", "datatables.buttons"])
     .run(function($rootScope, $http) {
         // $rootScope.DataVerifikasi = {};
         // var UrlVerifikasiData = "api/datas/read/VerifikasiData.php";
