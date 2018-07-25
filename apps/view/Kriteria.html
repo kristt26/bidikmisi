@@ -19,7 +19,7 @@
                     <h5 class="mb-0 d-flex no-block align-items-center">
                         <a data-toggle="collapse" data-target="#collapseOne{{ItemKriteria.IdKriteria}}" aria-expanded="true" aria-controls="collapseOne{{ItemKriteria.IdKriteria}}">
                             <i class="m-r-5 fa fa-magnet" aria-hidden="true"></i>
-                            <span>{{ItemKriteria.Keterangan}}({{ItemKriteria.Kriteria}})</span>
+                            <span>{{ItemKriteria.Keterangan}}({{ItemKriteria.Kriteria}}) &nbsp;&nbsp; | &nbsp;&nbsp; {{ItemKriteria.Jenis}} </span>
                         </a>
                         <div class="ml-auto text-right">
                             <a href="" data-toggle="modal" data-placement="top" title="Update Kriteria" ng-click="GetItemKriteria(ItemKriteria)" data-target="#EditKriteria">
@@ -95,6 +95,19 @@
                             <label for="keterangan" class="col-sm-3 text-right control-label col-form-label">Keterangan</label>
                             <div class="col-sm-9">
                                 <textarea class="form-control" id="keterangan" placeholder="Keterangan" ng-model="DataInputKriteria.Keterangan"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-3">Jenis Kriteria</label>
+                            <div class="col-md-9">
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" class="custom-control-input" id="customControlValidation1" value="Cost" ng-model="DataInputKriteria.Jenis" name="Jenis" required>
+                                    <label class="custom-control-label" for="customControlValidation1">Cost/Biaya</label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" class="custom-control-input" id="customControlValidation2" value="Benefit" ng-model="DataInputKriteria.Jenis" name="Jenis" required>
+                                    <label class="custom-control-label" for="customControlValidation2">Benefit/Keuntungan</label>
+                                </div>
                             </div>
                         </div>
                 </div>

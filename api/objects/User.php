@@ -54,6 +54,8 @@ class User{
         $this->Username = $row['Username'];
         $this->Email = $row['Email'];
         $this->Active = $row['Active'];
+        $this->Password = $row['Password'];
+        $this->Akses = $row['Akses'];
     }
     public function read()
     {
@@ -81,6 +83,25 @@ class User{
             return false;
         }else{
             return $_SESSION;
+        }
+    }
+    public function LogOut()
+    {
+        session_start();
+        session_unset();
+        session_destroy();
+        return true;
+    }
+    public function update()
+    {
+        $query="UPDATE ". $this->table_name ." SET Password=:Password WHERE IdUser=:IdUser";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":Password", $this->Password);
+        $stmt->bindParam(":IdUser", $this->IdUser);
+        if($stmt->execute()){
+            return true;
+        }else {
+            return false;
         }
     }
 }

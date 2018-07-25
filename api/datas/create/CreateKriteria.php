@@ -15,6 +15,7 @@ $data =json_decode(file_get_contents("php://input"));
 $kriteria->Kriteria = $data->Kriteria;
 $kriteria->Bobot =  $data->Bobot;
 $kriteria->Keterangan = $data->Keterangan;
+$kriteria->Jenis = $data->Jenis;
 if($kriteria->create()){
     echo json_encode(array("IdKriteria" => $kriteria->IdKriteria));
 }else {

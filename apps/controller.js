@@ -469,14 +469,100 @@ angular.module("Ctrl", ['datatables', 'datatables.buttons'])
         }
 
     })
+    .controller("LogoutController", function($scope, $http) {
+        $http({
+                method: "GET",
+                url: "api/datas/read/logout.php"
+            })
+            .then(function(response) {
+                if (response.data.message == "Success!") {
+                    window.location.href = "index.html#!/Main";
+                }
+            }, function(error) {
+
+            })
+    })
+    .controller("ChangesPasswordController", function($scope, $http, Services) {
+        $scope.Session = [];
+        $scope.Init = function() {
+            $http({
+                    method: "get",
+                    url: "api/datas/read/auth.php",
+                })
+                .then(function(response) {
+                    $scope.Session = response.data.Session;
+                }, function(error) {
+                    alert(error.message);
+                })
+        }
+        $scope.OldPassword = '';
+        $scope.passw1 = '';
+        $scope.passw2 = '';
+        $scope.DatasUser = {};
+        $scope.edit = true;
+        $scope.error = false;
+        $scope.incomplete = true;
+        $scope.hideform = true;
+        $scope.$watch('passw2', function() { $scope.test(); });
+        $scope.test = function() {
+            if ($scope.passw1 !== $scope.passw2) {
+                $scope.error = true;
+            } else {
+                $scope.error = false;
+            }
+            $scope.incomplete = false;
+            if ($scope.edit && (!$scope.OldPassword.length ||
+                    !$scope.passw1.length || !$scope.passw2.length)) {
+                $scope.incomplete = true;
+            }
+        };
+        $scope.Simpan = function() {
+            $scope.Session.OldPassword = $scope.OldPassword;
+            $scope.Session.NewPassword = $scope.passw1;
+            var urldata = "api/datas/update/ChangesPassword.php";
+            $http({
+                    method: "POST",
+                    url: urldata,
+                    data: $scope.Session
+                })
+                .then(function(response) {
+                    if (response.data.message == "Password Berhasil diubah!") {
+                        if (response.data.Akses == "Mahasiswa") {
+                            alert(response.data.message);
+                            window.location.href = "mahasiswa.html#!/Main";
+                        } else {
+                            alert(response.data.message);
+                            window.location.href = "admin.html#!/Main";
+                        }
+                    } else
+                        alert(response.data.message);
+                }, function(error) {
+
+                })
+        }
+
+    })
     .controller("ListMahasiswaController", function($scope, $http) {
         $scope.DatasMahasiswas = [];
         $scope.EditBerkas = {};
+        $scope.DatasTampung = [];
         $scope.pdfUrl;
         $http.get('api/datas/read/ReadDataMahasiswa.php').then(function(response) {
             //$scope.NPM = response.data.Biodata[0].NPM;
             $scope.DatasMahasiswas = response.data.record;
+            angular.forEach($scope.DatasMahasiswas, function(val1, key1) {
+                var a = false;
+                angular.forEach(val1.Kriteria, function(val2, key2) {
+                    if (val2.KriteriaMahasiswa[0].Status == "true") {
+                        a = true;
+                    }
+                })
+                if (a == false) {
+                    $scope.DatasTampung.push(angular.copy(val1));
+                }
+            })
         });
+
         $scope.pdfName;
         $scope.scroll = 0;
         $scope.loading = 'loading';
@@ -599,6 +685,11 @@ angular.module("Ctrl", ['datatables', 'datatables.buttons'])
                     if (value1.IdMahasiswa == value3.IdMahasiswa) {
                         $scope.a = true;
                     }
+                    angular.forEach($scope.Datas.Years, function(value2, key2) {
+                        if (value3.IdTahunAjaran == value2.IdTahunAjaran) {
+                            value3.TahunAjaran = value2.TahunAjaran;
+                        }
+                    })
                 })
                 angular.forEach(value1.Kriterias, function(value4, key4) {
                     if (value4.Status == "pending") {
@@ -613,9 +704,7 @@ angular.module("Ctrl", ['datatables', 'datatables.buttons'])
         $scope.check = function() {
             var a = $scope.Dataselected;
         }
-        $scope.SimpanHasil = function() {
 
-        }
         $scope.PilihData = function(item) {
             if (item.Cheked == "Pilih") {
                 item.Cheked = "Tidak";
@@ -745,6 +834,7 @@ angular.module("Ctrl", ['datatables', 'datatables.buttons'])
                         var a = 0;
                         var b = {};
                         var c = 0;
+                        var tanggal;
                         angular.forEach(value.Kriterias, function(value1, key1) {
                             angular.forEach($scope.PositifValue, function(value2, key2) {
                                 if (value1.Kriteria == value2.Kriteria) {
@@ -757,6 +847,13 @@ angular.module("Ctrl", ['datatables', 'datatables.buttons'])
                                 }
                             })
                         })
+                        angular.forEach($scope.Datas.Years, function(value, key) {
+                            if (value.Keterangan == "true") {
+                                tanggal = value.IdTahunAjaran;
+                            }
+                        })
+                        b.IdTahunAjaran = tanggal;
+                        b.IdMahasiswa = value.IdMahasiswa;
                         b.NPM = value.NPM;
                         b.NamaMahasiswa = value.NamaMahasiswa;
                         b.Alternatif = "A" + alternatif;
@@ -774,7 +871,15 @@ angular.module("Ctrl", ['datatables', 'datatables.buttons'])
                     angular.forEach($scope.JarakPositifNegatifValue, function(value, key) {
                         var a = 0;
                         var b = {};
+                        var tanggal;
                         a = (value.NilaiNegatif / (value.NilaiPositif + value.NilaiNegatif));
+                        angular.forEach($scope.Datas.Years, function(value, key) {
+                            if (value.Keterangan == "true") {
+                                tanggal = value.IdTahunAjaran;
+                            }
+                        })
+                        b.IdTahunAjaran = tanggal;
+                        b.IdMahasiswa = value.IdMahasiswa;
                         b.NPM = value.NPM;
                         b.NamaMahasiswa = value.NamaMahasiswa;
                         b.Alternatif = value.Alternatif;
@@ -788,5 +893,94 @@ angular.module("Ctrl", ['datatables', 'datatables.buttons'])
                 console.log(JSON.stringify($scope.AlternatifAkhir));
             }
 
+        }
+        $scope.SimpanHasil = function() {
+            $http({
+                method: "POST",
+                url: "api/datas/create/CreateHasilAkhir.php",
+                data: $scope.AlternatifAkhir
+            }).then(function(response) {
+                window.location.href = "admin.html#!/Seleksi";
+            }, function(error) {
+
+            })
+        }
+    })
+    .controller("PendaftaranController", function($scope, $http, $filter, DTOptionsBuilder, DTColumnBuilder) {
+        $scope.dtOptions = DTOptionsBuilder.newOptions()
+            .withPaginationType('full_numbers')
+            .withOption('order', [4, 'desc'])
+            .withButtons([{
+                    extend: 'excelHtml5',
+                    customize: function(xlsx) {
+                        var sheet = xlsx.xl.worksheets['sheet1.xml'];
+
+                        // jQuery selector to add a border to the third row
+                        $('row c[r*="3"]', sheet).attr('s', '25');
+                        // jQuery selector to set the forth row's background gray
+                        $('row c[r*="4"]', sheet).attr('s', '5');
+                    }
+                },
+                {
+                    extend: "csvHtml5",
+                    fileName: "Data_Analysis",
+                    exportOptions: {
+                        columns: ':visible'
+                    },
+                    exportData: { decodeEntities: true }
+                },
+                {
+                    extend: "pdfHtml5",
+                    fileName: "Data_Analysis",
+                    title: "Data Analysis Report",
+                    exportOptions: {
+                        columns: ':visible'
+                    },
+                    exportData: { decodeEntities: true }
+                },
+                {
+                    extend: 'print',
+                    //text: 'Print current page',
+                    autoPrint: true,
+                    title: "Data Seleksi",
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                }
+
+            ]);
+        $scope.dtColumns = [
+            DTColumnBuilder.newColumn('id').withTitle('ID'),
+            DTColumnBuilder.newColumn('firstName').withTitle('First name'),
+            DTColumnBuilder.newColumn('lastName').withTitle('Last name')
+        ];
+        $scope.DatasTahunAjaran = [];
+        $scope.DataInput = {};
+        $scope.Init = function() {
+            $http({
+                method: "POST",
+                url: "api/datas/read/ReadTahunAjaran.php",
+                data: $scope.DataInput
+            }).then(function(response) {
+                $scope.DatasTahunAjaran = response.data.record;
+            }, function(error) {
+                alert(error.message);
+            })
+        }
+        $scope.Simpan = function() {
+            $http({
+                method: "POST",
+                url: "api/datas/create/CreateTahunAjaran.php",
+                data: $scope.DataInput
+            }).then(function(response) {
+                if (response.data.IdTahunAjaran > 0) {
+                    $scope.DataInput.IdTahunAjaran = response.data.IdTahunAjaran;
+                    $scope.DatasTahunAjaran.push(angular.copy($scope.DataInput));
+                    alert("Pendaftaran Dibuka");
+                } else
+                    alert("Pendaftaran tidak Terbuka");
+            }, function(error) {
+                alert(error.message);
+            })
         }
     });

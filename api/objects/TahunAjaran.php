@@ -43,6 +43,34 @@ class TahunAjaran{
         $this->TanggalTutup = $row['TanggalTutup'];
         $this->Keterangan = $row['Keterangan'];
     }
+    public function create()
+    {
+        $query="INSERT INTO ". $this->table_name ." SET TahunAjaran=?, TanggalBuka=?, TanggalTutup=?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(1, $this->TahunAjaran);
+        $stmt->bindParam(2, $this->TanggalBuka);
+        $stmt->bindParam(3, $this->TanggalTutup);
+        if($stmt->execute()){
+            $this->IdTahunAjaran = $this->conn->lastInsertId();
+            return true;
+        }else {
+            return false;
+        }
+    }
+    public function update()
+    {
+        $Aktif = "true";
+        $NonAktif = "false";
+        $query="UPDATE ". $this->table_name ." SET Keterangan=:NonAktif WHERE Keterangan=:Aktif";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":Aktif", $Aktif);
+        $stmt->bindParam(":NonAktif", $NonAktif);
+        if($stmt->execute()){
+            return true;
+        }else {
+            return false;
+        }
+    }
 }
 
 ?>

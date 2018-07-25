@@ -35,53 +35,29 @@
                                                 <!-- <input type="date" id="disabledTextInput" placeholder="Disabled input"> -->
                                             </div>
                                         </div>
-                                        <table datatable="ng" id="zero_config" class="table table-striped table-bordered">
+                                        <table datatable="ng" id="zero_config" dt-options="dtOptions" dt-column-defs="dtColumnDefs" class="table table-striped table-bordered">
                                             <thead>
                                                 <tr>
+                                                    <th>Urutan</th>
+                                                    <th>Alternatif</th>
                                                     <th>NPM</th>
                                                     <th>Nama</th>
-                                                    <th>Kelas</th>
-                                                    <th>Tahun Pendaftaran</th>
-                                                    <th>Status</th>
-                                                    <th>Action</th>
+                                                    <th>Nilai</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr ng-repeat="Mahasiswa in Datas.Mahasiswas | filter: Dataselected.TahunAjaran">
-                                                    <td>{{Mahasiswa.NPM}}</td>
-                                                    <td>{{Mahasiswa.NamaMahasiswa}}</td>
-                                                    <td>{{Mahasiswa.Kelas}}</td>
-                                                    <td>{{Mahasiswa.Years}}</td>
-                                                    <td>{{Mahasiswa.Status}}</td>
-                                                    <td>
-                                                        <div class="btn-group" ng-hide="Mahasiswa.NPM==null">
-                                                            <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Berkas</button>
-                                                            <div class="dropdown-menu">
-                                                                <div ng-repeat="Kriteria in Mahasiswa.Kriteria">
-                                                                    <a href="" data-toggle="modal" data-placement="top" title="Verifikasi Data" ng-click="Verivikasi(Kriteria)" data-target="#verifikasi">
-                                                                                                {{Kriteria.Keterangan}}
-                                                                                            </a>
-
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
-                                                        <a class="btn btn-secondary dropdown-toggle" ng-show="Mahasiswa.NPM==null" data-placement="top" title="Verifikasi Data">
-                                                                                        Berkas
-                                                                                    </a>
-                                                        <a href="" data-toggle="modal" class="btn btn-info" data-placement="top" title="Send Email" ng-click="Verivikasi(Kriteria)" data-target="#verifikasi">
-                                                            <font><i class="mdi mdi-email"></i></font>
-                                                        </a>
-
-                                                    </td>
-
+                                                <tr ng-repeat="Item in Datas.HasilAkhir | filter: Dataselected.TahunAjaran">
+                                                    <td>{{$index+1}}</td>
+                                                    <td>{{Item.Alternatif}}</td>
+                                                    <td>{{Item.NPM}}</td>
+                                                    <td>{{Item.NamaMahasiswa}}</td>
+                                                    <td>{{Item.NilaiAkhir}}</td>
                                                 </tr>
 
                                             </tbody>
                                         </table>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                         <div class="tab-pane" id="profile" role="tabpanel">

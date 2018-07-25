@@ -35,6 +35,18 @@ app.config(function($routeProvider) {  
             templateUrl: "apps/view/Seleksi.html",
             controller: "SeleksiController"
         })
+        .when("/Logout", {
+            templateUrl: "apps/view/Main.html",
+            controller: "LogoutController"
+        })
+        .when("/ChangesPassword", {
+            templateUrl: "apps/view/ChangesPassword.html",
+            controller: "ChangesPasswordController"
+        })
+        .when("/Pendaftaran", {
+            templateUrl: "apps/view/Pendaftaran.html",
+            controller: "PendaftaranController"
+        })
         .otherwise({ redirectTo: '/Main' });
 });
 
@@ -103,11 +115,18 @@ app.factory("Services", function($http, $rootScope, $location) {
     }
     service.Cek = function() {
         var UrlVerifikasiData = "api/datas/read/VerifikasiData.php";
-        $http.get(UrlVerifikasiData).then(function(response) {
-            $rootScope.DataVerifikasi = response.data.Biodata[0];
-            console.log(response.data.Biodata[0].NPM);
-            $rootScope.NPM = response.data.Biodata[0].NPM;
-        });
+        $http({
+                method: "GET",
+                url: UrlVerifikasiData
+            })
+            .then(function(response) {
+                $rootScope.DataVerifikasi = response.data.Biodata[0];
+                console.log(response.data.Biodata[0].NPM);
+                $rootScope.NPM = response.data.Biodata[0];
+                return $rootScope.NPM;
+            }, function(error) {
+
+            })
     }
     return service;
 });

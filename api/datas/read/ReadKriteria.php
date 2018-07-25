@@ -28,6 +28,7 @@ if($numRowKriteria>0){
             "Kriteria"=>$Kriteria,
             "Bobot"=>$Bobot,
             "Keterangan"=>$Keterangan,
+            "Jenis" => $Jenis,
             "SubKriteria"=>array()
         );
         $subkriteria->IdKriteria=$IdKriteria;

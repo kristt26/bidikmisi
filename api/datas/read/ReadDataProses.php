@@ -78,10 +78,15 @@ $stmtHasil = $hasilAkhir->read();
 $num = $stmtHasil->rowCount();
 while ($rowHasil = $stmtHasil->fetch(PDO::FETCH_ASSOC)) {
     extract($rowHasil);
+    $mahasiswa->IdMahasiswa=$IdMahasiswa;
+    $mahasiswa->ReadOne();
     $Hasil = array(
         'IdNilaiAkhir' => $IdNilaiAkhir,
         'IdTahunAjaran' => $IdTahunAjaran,
         'IdMahasiswa' => $IdMahasiswa,
+        'NPM' => $mahasiswa->NPM,
+        'NamaMahasiswa' => $mahasiswa->NamaMahasiswa,
+        'Alternatif' => $Alternatif,
         'NilaiAkhir' => $NilaiAkhir,
     );
     array_push($Datas["HasilAkhir"], $Hasil);
