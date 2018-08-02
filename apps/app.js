@@ -47,6 +47,10 @@ app.config(function($routeProvider) {  
             templateUrl: "apps/view/Pendaftaran.html",
             controller: "PendaftaranController"
         })
+        .when("/Laporan", {
+            templateUrl: "apps/view/Laporan.html",
+            controller: "SeleksiController"
+        })
         .otherwise({ redirectTo: '/Main' });
 });
 
@@ -96,7 +100,7 @@ app.service('fileUpload', ['$http', function($http) {
 }]);
 
 app.factory("Services", function($http, $rootScope, $location) {
-    var service = {};
+    var service = { cek: cek };
     service.Authentification = function() {
         $rootScope.Session = {};
         var Urlauth = "api/datas/read/auth.php";
@@ -114,6 +118,7 @@ app.factory("Services", function($http, $rootScope, $location) {
             })
     }
     service.Cek = function() {
+
         var UrlVerifikasiData = "api/datas/read/VerifikasiData.php";
         $http({
                 method: "GET",
@@ -127,6 +132,12 @@ app.factory("Services", function($http, $rootScope, $location) {
             }, function(error) {
 
             })
+
     }
+
+    function cek() {
+        return "Testing";
+    }
+
     return service;
 });

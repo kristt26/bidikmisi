@@ -391,8 +391,13 @@ angular.module("Ctrl", ['datatables', 'datatables.buttons'])
                     if (response.data.Session != undefined) {
                         if (response.data.Session.Akses == "Mahasiswa")
                             window.location.href = "mahasiswa.html";
-                        else
+                        else if (response.data.Session.Akses == "Admin") {
                             window.location.href = "admin.html";
+                        } else {
+                            window.location.href = "pimpinan.html";
+                        }
+
+
                     } else
                         alert(response.data.message);
 
@@ -552,14 +557,15 @@ angular.module("Ctrl", ['datatables', 'datatables.buttons'])
             $scope.DatasMahasiswas = response.data.record;
             angular.forEach($scope.DatasMahasiswas, function(val1, key1) {
                 var a = false;
+                var jumlah = val1.Kriteria.length;
+                var panjanglength = 0;
                 angular.forEach(val1.Kriteria, function(val2, key2) {
                     if (val2.KriteriaMahasiswa[0].Status == "true") {
-                        a = true;
+                        panjanglength++;
                     }
                 })
-                if (a == false) {
+                if (jumlah > panjanglength)
                     $scope.DatasTampung.push(angular.copy(val1));
-                }
             })
         });
 
@@ -612,6 +618,7 @@ angular.module("Ctrl", ['datatables', 'datatables.buttons'])
 
     })
     .controller("SeleksiController", function($scope, $http, $filter, DTOptionsBuilder, DTColumnBuilder) {
+        $scope.JumlahCalonSelesi;
         $scope.dtOptions = DTOptionsBuilder.newOptions()
             .withPaginationType('full_numbers')
             .withOption('order', [4, 'desc'])
@@ -725,6 +732,8 @@ angular.module("Ctrl", ['datatables', 'datatables.buttons'])
             })
             return total;
         }
+
+
         $scope.Proses = function() {
             $scope.AlternatifAkhir = [];
             $scope.PositifValue = [];

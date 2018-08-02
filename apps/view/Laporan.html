@@ -18,9 +18,9 @@
             <div class="col-12">
                 <div class="card">
                     <ul class="nav nav-tabs" role="tablist">
-                        <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="" data-target="#daftar" role="tab"><span class="hidden-sm-up"></span> <span class="hidden-xs-down">Daftar Hasil Perhitungan TOPSIS</span></a> </li>
-                        <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="" data-target="#profile" role="tab" ng-click="SelectedMahasiswa()"><span class="hidden-sm-up"></span> <span class="hidden-xs-down">Pilih Mahasiswa</span></a> </li>
-                        <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="" data-target="#topsis" role="tab"><span class="hidden-sm-up"></span> <span class="hidden-xs-down">Proses TOPSIS</span></a> </li>
+                        <!-- <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="" data-target="#daftar" role="tab"><span class="hidden-sm-up"></span> <span class="hidden-xs-down">Daftar Hasil Perhitungan TOPSIS</span></a> </li>
+                        <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="" data-target="#profile" role="tab" ng-click="SelectedMahasiswa()"><span class="hidden-sm-up"></span> <span class="hidden-xs-down">Pilih Mahasiswa</span></a> </li> -->
+                        <li class="nav-item"> <a class="nav-link" data-toggle="tab" data-target="#topsis" role="tab"><span class="hidden-sm-up"></span> <span class="hidden-xs-down">Laporan</span></a> </li>
                     </ul>
                     <div class="tab-content tabcontent-border">
 
@@ -82,7 +82,6 @@
                                                 <a href="" ng-show="Mahasiswa.Cheked=='Pilih'" data-toggle="modal" data-placement="top" title="Send Email" ng-click="PilihData(Mahasiswa)" data-target="#verifikasi">
                                                     <font><i class="fas fa-check-square"></i></font>
                                                 </a>
-
                                             </td>
                                             <td>{{Mahasiswa.NPM}}</td>
                                             <td>{{Mahasiswa.NamaMahasiswa}}</td>
@@ -90,7 +89,6 @@
                                             <td>{{Mahasiswa.Year}}</td>
                                             <td>{{Mahasiswa.Status}}</td>
                                         </tr>
-
                                     </tbody>
                                 </table>
                             </div>
@@ -101,7 +99,7 @@
                                     <a ng-show="JumlahData<2" class="btn btn-primary dropdown-toggle" ng-click="Proses()" data-placement="top" title="Proses">
                                         Proses
                                     </a>
-                                    <a ng-show="JumlahData>=2" class="btn btn-primary dropdown-toggle" data-toggle="modal" ng-click="Proses()" data-placement="top" title="Proses" data-target="#JumlahCalon">
+                                    <a ng-show="JumlahData>=2" class="btn btn-primary dropdown-toggle" data-toggle="modal" ng-click="Proses()" data-placement="top" title="Proses" data-target="#HitungTopsis">
                                         Proses
                                     </a>
                                 </div>
@@ -182,8 +180,8 @@
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Information!!!</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
                 </div>
                 <div class="modal-body">
                     Yakin ingin Menyimpan Data ???
@@ -193,33 +191,6 @@
                         Tidak
                     </a>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal" ng-click="SimpanHasil()">Ya</button>
-                </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <div class="modal fade" id="JumlahCalon" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Information!!!</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group row">
-                        <label for="kriteria" class="col-sm-3 text-right control-label col-form-label">Jumlah Kuota</label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" id="kriteria" ng-model="JumlahCalonSelesi" placeholder="Kriteria">
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                    <a ng-show="JumlahData>=2" class="btn btn-primary dropdown-toggle" data-toggle="modal" ng-click="Proses()" data-placement="top" title="Proses" data-target="#HitungTopsis">
-                        Proses
-                    </a>
                 </div>
                 </form>
             </div>
